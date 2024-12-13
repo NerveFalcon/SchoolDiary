@@ -1,0 +1,83 @@
+﻿@page "/"
+@rendermode InteractiveServer
+@using global::SchoolDiary.HomeWork.Models
+@using Humanizer
+@using SchoolDiary.Lessons
+
+@inject IJSRuntime JS
+@inject LessonService LessonService
+
+<PageTitle>Календарь</PageTitle>
+
+<h1>Календарь заданий</h1>
+<div class="d-flex gap-4">
+	<div class="calendar flex-fill">
+		@foreach (var day in Days)
+		{
+			<div data-day-of-week="@day.DayOfWeek" 
+			     @onclick="() => Selected = day"
+			     class="day rounded-2 p-3 squad d-flex flex-column 
+						bg-cream @(day == Selected ? "bg-opacity-25" : "bg-opacity-10")">
+				<div class="d-flex justify-content-between">
+					<span>@day.DayOfWeek.Humanize()</span>
+					<span>@day.Day</span>
+				</div>
+				<div class="lessons">
+					@foreach (var lesson in day.Lessons.OrderBy(l=>l.Serial))
+					{
+						<div style="background-color: @lesson.Subject.Color;" class="rounded-2 px-2 py-1">
+							@lesson.Subject.Title
+						</div>
+					}
+				</div>
+			</div>
+		}
+	</div>
+	<aside class="w-25 d-flex flex-column">
+		<div class="bg-cream bg-opacity-25 p-4 ">
+			<p><b>Задания на @(Selected.Day.ToString("00")).@Selected.Month</b></p>
+			<div class="d-flex flex-columns">
+				@foreach (var work in @Selected.HomeWorks)
+				{
+					<div class="work">
+						<span>Задание 1</span>
+					</div>
+				}
+			</div>
+		</div>
+	</aside>
+</div>
+
+@code
+{
+	DayModel Selected { get; set; }
+	List<DayModel> Days { get; } = [];
+
+	protected override Task OnInitializedAsync()
+	{
+		var daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
+
+		for (var i = 0; i < daysInMonth; i++)
+		{
+			var day = new DayModel(i + 1);
+			day.Lessons = LessonService.GetLessons(day.InternalDayOfWeek).ToList();
+			Days.Add(day);
+		}
+		
+		Selected = Days[DateTime.Today.Day];
+		Selected.HomeWorks = [
+			new()
+			{
+				Title = "Задание 1",
+			}
+		];
+
+		return base.OnInitializedAsync();
+	}
+
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (firstRender)
+			await JS.InvokeVoidAsync("squadNeeded");
+	}
+}
