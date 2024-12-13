@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Content Update="wwwroot\downLayer.css">
+      <Content Update="wwwroot\**">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       </Content>
     </ItemGroup>
