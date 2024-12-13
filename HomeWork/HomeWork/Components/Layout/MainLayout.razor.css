@@ -17,7 +17,7 @@ main {
 }
 
 .sidebar {
-    background-color: rgba(var(--cream-rgb), 0.1);
+    background-color: rgba(var(--cream-rgb), 0.25);
 }
 
 .top-row {

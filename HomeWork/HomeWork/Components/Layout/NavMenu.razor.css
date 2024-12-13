@@ -92,12 +92,12 @@
     }
 
 .nav-item ::deep a.active {
-    background-color: rgba(0,0,0,0.37);
+    background-color: rgba(var(--bs-secondary-rgb),0.5);
     color: rgba(var(--bs-light-rgb),var(--bs-text-opacity));
 }
 
 .nav-item ::deep .nav-link:hover {
-    background-color: rgba(0,0,0,0.1);
+    background-color: rgba(var(--bs-secondary-rgb),0.2);
     color: rgba(var(--bs-body-color-rgb),var(--bs-text-opacity));
 }
 
