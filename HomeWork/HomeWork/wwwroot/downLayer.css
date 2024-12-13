@@ -1,0 +1,9 @@
+:root{
+    --cream: #f4c588;
+    --cream-rgb: 244, 197, 136;
+}
+
+.bg-cream {
+    --bs-bg-opacity: 1;
+    background-color: rgba(var(--cream-rgb), var(--bs-bg-opacity));
+}

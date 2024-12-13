@@ -5,6 +5,7 @@
 	<meta charset="utf-8"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 	<base href="/"/>
+	<link rel="stylesheet" href="@Assets["downLayer.css"]"/>
 	<link rel="stylesheet" href="@Assets["lib/bootstrap/dist/css/bootstrap.min.css"]"/>
 	<link rel="stylesheet" href="@Assets["app.css"]"/>
 	<link rel="stylesheet" href="@Assets["HomeWork.styles.css"]"/>
@@ -17,6 +18,23 @@
 <Routes/>
 <script src="_framework/blazor.web.js"></script>
 <script src="@Assets["lib/bootstrap/dist/js/bootstrap.js"]"></script>
+<script>
+	function squadNeeded() {
+		let squads = document.getElementsByClassName("squad");
+		for (let index in squads)
+		{
+			let squad = squads[index]
+			try {
+				squad.style.height = squad.clientWidth + "px";			
+			}
+			catch (e)
+			{
+				
+			}
+		}
+	}
+
+</script>
 </body>
 
 </html>
