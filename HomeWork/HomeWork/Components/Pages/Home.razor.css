@@ -6,6 +6,7 @@
 }
 
 .day{
+    cursor: pointer;
     /*--days-in-week: 7;*/
     /*width: calc((100vw - var(--sidebar-width) - var(--content-px)) / var(--days-in-week) - var(--gap-4) );*/
     /*height: calc((100vw - var(--sidebar-width) - var(--content-px)) / var(--days-in-week) - var(--gap-4) );*/

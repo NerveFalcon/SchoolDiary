@@ -12,26 +12,35 @@
 	<div class="calendar flex-fill">
 		@foreach (var day in Days)
 		{
-			<div data-day-of-week="@day.DayOfWeek" class="day bg-cream bg-opacity-10 rounded-2 p-3 squad d-flex flex-column">
+			<div data-day-of-week="@day.DayOfWeek" 
+			     @onclick="() => Selected = day"
+			     class="day rounded-2 p-3 squad d-flex flex-column 
+						bg-cream @(day == Selected ? "bg-opacity-25" : "bg-opacity-10")">
 				<div class="d-flex justify-content-between">
 					<span>@day.DayOfWeek.Humanize()</span>
 					<span>@day.Day</span>
 				</div>
 				<div class="works">
-					<div class="bg-secondary-subtle rounded-2 px-2 py-1">
-						Задача 1
-					</div>
+					@foreach (var work in day.Works)
+					{
+						<div style="background-color: @work.Color;" class="bg-secondary-subtle rounded-2 px-2 py-1">
+							@work.Title
+						</div>
+					}
 				</div>
 			</div>
 		}
 	</div>
 	<aside class="w-25 d-flex flex-column">
-		<div class="bg-cream bg-opacity-10 p-4 ">
-			<p><b>Задания на завтра</b></p>
+		<div class="bg-cream bg-opacity-25 p-4 ">
+			<p><b>Задания на @(Selected.Day.ToString("00")).@Selected.Month</b></p>
 			<div class="d-flex flex-columns">
-				<div class="task">
-					<span>Задание 1</span>
-				</div>
+				@foreach (var work in @Selected.Works)
+				{
+					<div class="work">
+						<span>Задание 1</span>
+					</div>
+				}
 			</div>
 		</div>
 	</aside>
@@ -39,6 +48,7 @@
 
 @code
 {
+	DayModel Selected { get; set; }
 	List<DayModel> Days { get; } = [];
 
 	protected override Task OnInitializedAsync()
@@ -47,6 +57,15 @@
 
 		for (var i = 0; i < daysInMonth; i++)
 			Days.Add(new(i + 1));
+		
+		Selected = Days[DateTime.Today.Day];
+		Selected.Works = [
+			new()
+			{
+				Title = "Задание 1",
+				Color = "sandybrown"
+			}
+		];
 
 		return base.OnInitializedAsync();
 	}

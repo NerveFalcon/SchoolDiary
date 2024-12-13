@@ -9,6 +9,7 @@ public class DayModel(int dayOfMonth)
 	public int Month => _date.Month;
 	public int Year => _date.Year;
 	public int DayOfYear => _date.DayOfYear;
+	public List<Work> Works { get; set; } = [];
 
 	private static DayOfWeekRu Translate(DayOfWeek dayOfWeek)
 	{
@@ -16,4 +17,10 @@ public class DayModel(int dayOfMonth)
 
 		return (DayOfWeekRu)dayOfWeek;
 	}
+}
+
+public class Work
+{
+	public string Title { get; set; }
+	public string Color { get; set; }
 }
