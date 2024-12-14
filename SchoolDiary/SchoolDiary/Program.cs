@@ -40,6 +40,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
+builder.Services.AddAutoMapper(m => m.AddProfile<LessonProfile>());
+
 builder.Services.AddScoped<LessonService>()
 	.AddScoped<HomeWorkService>()
 	.AddScoped<CalendarService>();
