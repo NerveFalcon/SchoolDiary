@@ -5,6 +5,7 @@ using SchoolDiary.Client.Pages;
 using SchoolDiary.Components;
 using SchoolDiary.Components.Account;
 using SchoolDiary.Data;
+using SchoolDiary.HomeWork;
 using SchoolDiary.Lessons;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -40,7 +41,8 @@ builder.Services.AddIdentityCore<ApplicationUser>(options => options.SignIn.Requ
 
 builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 
-builder.Services.AddScoped<LessonService>();
+builder.Services.AddScoped<LessonService>()
+	.AddScoped<HomeWorkService>();
 
 var app = builder.Build();
 

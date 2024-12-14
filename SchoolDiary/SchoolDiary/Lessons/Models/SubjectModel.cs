@@ -4,6 +4,7 @@ public class SubjectModel
 {
 	public string Title { get; set; }
 	public string Color { get; set; }
+	public string BgColor => $"{Color}3b";
 
 	public static SubjectModel Russian;
 	public static SubjectModel Math;

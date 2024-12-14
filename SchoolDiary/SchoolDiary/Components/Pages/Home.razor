@@ -1,12 +1,12 @@
 ﻿@page "/"
-@rendermode InteractiveServer
-@using SchoolDiary.HomeWork.Models
 @using Humanizer
+@using SchoolDiary.HomeWork
+@using SchoolDiary.HomeWork.Models
 @using SchoolDiary.Lessons
-@using SchoolDiary.Lessons.Models
+@rendermode InteractiveServer
 
-@inject IJSRuntime JS
 @inject LessonService LessonService
+@inject HomeWorkService HomeWorkService
 
 <PageTitle>Календарь</PageTitle>
 
@@ -26,25 +26,27 @@
 				<div class="d-flex flex-column gap-1">
 					@foreach (var lesson in day.Lessons.OrderBy(l => l.Serial))
 					{
-						<div style="background-color: @(lesson.Subject.Color)3d;" class="rounded-2 px-2 py-1 d-flex justify-content-between">
+						<div style="background-color: @(lesson.Subject.BgColor);"
+						     class="rounded-2 px-2 py-1 d-flex justify-content-between">
 							@lesson.Subject.Title
-							<span class="badge badge-light">@day.HomeWorksCount(lesson.Subject)</span>
+							<span
+								class="badge bg-info-subtle text-info-emphasis align-self-center">@day.HomeWorksCount(lesson.Subject)</span>
 						</div>
 					}
 				</div>
 			</div>
 		}
 	</div>
-	
+
 	<aside class="w-25 d-flex flex-column">
 		<div class="bg-cream bg-opacity-25 p-4 rounded rounded-2">
 			<p><b>Задания на @(Selected.Day.ToString("00")).@Selected.Month</b></p>
-			<div class="d-flex flex-columns">
-				@foreach (var work in @Selected.HomeWorks)
+			<div class="d-flex flex-column gap-2">
+				@foreach (var work in Selected.HomeWorks)
 				{
-					<div style="background-color: @work.Subject.Color;" class="flex-fill p-2 rounded rounded-1">
+					<div style="background-color: @work.Subject.BgColor;" class="flex-fill p-2 rounded rounded-1">
+						<p>@work.Subject.Title</p>
 						<p>@work.Title</p>
-						<p>@work.Description</p>
 					</div>
 				}
 			</div>
@@ -65,19 +67,11 @@
 		{
 			var day = new DayModel(i + 1);
 			day.Lessons = LessonService.GetLessons(day.InternalDayOfWeek).ToList();
+			day.HomeWorks = HomeWorkService.GetHomeWorks(day.Day);
 			Days.Add(day);
 		}
 
 		Selected = Days[DateTime.Today.Day - 1];
-		Selected.HomeWorks =
-		[
-			new()
-			{
-				Subject = SubjectModel.Nature,
-				Title = "Задание 1",
-				Description = "Опишите что такое облако."
-			}
-		];
 
 		return base.OnInitializedAsync();
 	}

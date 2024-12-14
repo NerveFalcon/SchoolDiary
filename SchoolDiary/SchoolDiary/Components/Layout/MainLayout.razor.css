@@ -3,6 +3,9 @@
     --content-ps: 2rem;
     --content-pe: 1.5rem;
     --content-px: calc(var(--content-ps) + var(--content-pe));
+    --gap-1: 0.25rem;
+    --gap-2: 0.5rem;
+    --gap-3: 1rem;
     --gap-4: 1.5rem;
     
     --bs-text-opacity: 1;
