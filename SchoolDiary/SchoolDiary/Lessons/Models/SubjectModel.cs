@@ -1,31 +1,12 @@
 namespace SchoolDiary.Lessons.Models;
 
-public class SubjectModel
+public class SubjectModel(string title, string color)
 {
-	public string Title { get; set; }
-	public string Color { get; set; }
+	public string Title { get; } = title;
+	public string Color { get; } = color;
 	public string BgColor => $"{Color}3b";
 
-	public static SubjectModel Russian;
-	public static SubjectModel Math;
-	public static SubjectModel Nature;
-
-	static SubjectModel()
-	{
-		Russian = new()
-		{
-			Title = "Russian",
-			Color = "#dc3545",
-		};
-		Math = new()
-		{
-			Title = "Math",
-			Color = "#0d6efd",
-		};
-		Nature = new()
-		{
-			Title = "Nature",
-			Color = "#198754",
-		};
-	}
+	public static readonly SubjectModel Russian = new("Русский язык", "#dc3545");
+	public static readonly SubjectModel Math = new("Математика", "#0d6efd");
+	public static readonly SubjectModel Nature = new("Окружающий мир", "#198754");
 }

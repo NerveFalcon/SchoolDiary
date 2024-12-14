@@ -1,8 +1,8 @@
 namespace SchoolDiary.Lessons.Models;
 
-public class LessonModel
+public class LessonModel(DayOfWeek dayOfWeek, int serial, SubjectModel subject)
 {
-	public SubjectModel Subject { get; set; }
-	public DayOfWeek DayOfWeek { get; set; }
-	public int Serial { get; set; }
+	public SubjectModel Subject { get; } = subject;
+	public DayOfWeek DayOfWeek { get; } = dayOfWeek;
+	public int Serial { get; } = serial;
 }

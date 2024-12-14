@@ -13,8 +13,8 @@ public class HomeWorkService
 		[
 			new(friday, SubjectModel.Nature, "Написать в тетради что такое облака"),
 			new(friday, SubjectModel.Nature, "Нарисовать белочку"),
-			new(friday, SubjectModel.Russian, "Выучить. Азбука часть 2, страница 14, задания 2 и 3"),
-			new(friday, SubjectModel.Math, "Решить задания 1 и 3 на странице 32"),
+			new(friday.AddDays(-1), SubjectModel.Russian, "Выучить. Азбука часть 2, страница 14, задания 2 и 3"),
+			new(friday.AddDays(-1), SubjectModel.Math, "Решить задания 1 и 3 на странице 32"),
 		];
 	}
 

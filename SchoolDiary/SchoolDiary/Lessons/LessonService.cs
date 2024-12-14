@@ -6,77 +6,23 @@ public class LessonService
 {
 	ILookup<DayOfWeek, LessonModel> Shedule { get; set; }
 	List<LessonModel> Lessons { get; set; }
+
 	public LessonService()
 	{
-		Lessons = [
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Monday,
-				Serial = 1,
-				Subject = SubjectModel.Math,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Monday,
-				Serial = 2,
-				Subject = SubjectModel.Russian,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Monday,
-				Serial = 3,
-				Subject = SubjectModel.Nature,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Tuesday,
-				Serial = 1,
-				Subject = SubjectModel.Russian,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Tuesday,
-				Serial = 2,
-				Subject = SubjectModel.Nature,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Wednesday,
-				Serial = 1,
-				Subject = SubjectModel.Nature,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Wednesday,
-				Serial = 2,
-				Subject = SubjectModel.Math,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Thursday,
-				Serial = 1,
-				Subject = SubjectModel.Russian,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Thursday,
-				Serial = 1,
-				Subject = SubjectModel.Math,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Thursday,
-				Serial = 3,
-				Subject = SubjectModel.Nature,
-			},
-			new LessonModel()
-			{
-				DayOfWeek = DayOfWeek.Friday,
-				Serial = 1,
-				Subject = SubjectModel.Nature,
-			},
+		Lessons =
+		[
+			new(DayOfWeek.Monday, 1, SubjectModel.Math),
+			new(DayOfWeek.Monday, 2, SubjectModel.Russian),
+			new(DayOfWeek.Monday, 3, SubjectModel.Nature),
+			new(DayOfWeek.Tuesday, 1, SubjectModel.Russian),
+			new(DayOfWeek.Tuesday, 2, SubjectModel.Nature),
+			new(DayOfWeek.Wednesday, 1, SubjectModel.Math),
+			new(DayOfWeek.Thursday, 1, SubjectModel.Russian),
+			new(DayOfWeek.Thursday, 1, SubjectModel.Math),
+			new(DayOfWeek.Thursday, 3, SubjectModel.Nature),
+			new(DayOfWeek.Friday, 1, SubjectModel.Nature),
 		];
-		
+
 		Shedule = Lessons.ToLookup(l => l.DayOfWeek, l => l);
 	}
 
