@@ -1,12 +1,10 @@
 ﻿@page "/"
 @using Humanizer
-@using SchoolDiary.HomeWork
-@using SchoolDiary.HomeWork.Models
-@using SchoolDiary.Lessons
+@using SchoolDiary.Calendar
+@using SchoolDiary.Calendar.Models
 @rendermode InteractiveServer
 
-@inject LessonService LessonService
-@inject HomeWorkService HomeWorkService
+@inject CalendarService Calendar
 
 <PageTitle>Календарь</PageTitle>
 
@@ -57,20 +55,11 @@
 @code
 {
 	DayModel Selected { get; set; }
-	List<DayModel> Days { get; } = [];
+	List<DayModel> Days { get; set; } = [];
 
 	protected override Task OnInitializedAsync()
 	{
-		var daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
-
-		for (var i = 0; i < daysInMonth; i++)
-		{
-			var day = new DayModel(i + 1);
-			day.Lessons = LessonService.GetLessons(day.InternalDayOfWeek).ToList();
-			day.HomeWorks = HomeWorkService.GetHomeWorks(day.Day);
-			Days.Add(day);
-		}
-
+		Days = Calendar.GetCurrent().ToList();
 		Selected = Days[DateTime.Today.Day - 1];
 
 		return base.OnInitializedAsync();
