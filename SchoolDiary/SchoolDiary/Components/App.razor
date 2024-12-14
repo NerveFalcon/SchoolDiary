@@ -18,23 +18,6 @@
 <Routes/>
 <script src="_framework/blazor.web.js"></script>
 <script src="@Assets["lib/bootstrap/dist/js/bootstrap.js"]"></script>
-<script>
-	function squadNeeded() {
-		let squads = document.getElementsByClassName("squad");
-		for (let index in squads)
-		{
-			let squad = squads[index]
-			try {
-				squad.style.height = squad.clientWidth + "px";			
-			}
-			catch (e)
-			{
-				
-			}
-		}
-	}
-
-</script>
 </body>
 
 </html>

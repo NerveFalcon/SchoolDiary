@@ -81,14 +81,4 @@
 
 		return base.OnInitializedAsync();
 	}
-
-	protected override async Task OnAfterRenderAsync(bool firstRender)
-	{
-		if (firstRender)
-		{
-			await Task.CompletedTask;
-
-			// await JS.InvokeVoidAsync("squadNeeded");
-		}
-	}
 }
