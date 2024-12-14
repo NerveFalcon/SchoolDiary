@@ -22,9 +22,9 @@ public class DayModel(int dayOfMonth)
 		return (DayOfWeekRu)dayOfWeek;
 	}
 
-	public int? HomeWorksCount(LessonModel lesson)
+	public int? HomeWorksCount(SubjectModel subject)
 	{
-		var count = HomeWorks.Count(w => w.Subject == lesson.Subject);
+		var count = HomeWorks.Count(w => w.Subject == subject);
 		return count == 0 ? null : count;
 	}
 }

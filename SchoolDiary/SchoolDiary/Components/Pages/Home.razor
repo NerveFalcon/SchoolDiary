@@ -26,9 +26,9 @@
 				<div class="d-flex flex-column gap-1">
 					@foreach (var lesson in day.Lessons.OrderBy(l => l.Serial))
 					{
-						<div style="background-color: @lesson.Subject.Color;" class="rounded-2 px-2 py-1 d-flex justify-content-between">
+						<div style="background-color: @(lesson.Subject.Color)3d;" class="rounded-2 px-2 py-1 d-flex justify-content-between">
 							@lesson.Subject.Title
-							<span class="badge badge-light">@day.HomeWorksCount(lesson)</span>
+							<span class="badge badge-light">@day.HomeWorksCount(lesson.Subject)</span>
 						</div>
 					}
 				</div>
