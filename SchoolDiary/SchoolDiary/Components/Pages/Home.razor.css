@@ -1,7 +1,7 @@
 .calendar{
     display: grid;
     /*grid-template-rows: repeat(var(--bs-rows, 1), 1fr);*/
-    grid-template-columns: repeat(7, 1fr);
+    grid-template-columns: repeat(5, 2fr) repeat(2, 1fr);
     gap: var(--gap-4);
 }
 
