@@ -24,7 +24,7 @@
 				<div class="d-flex flex-column gap-1">
 					@foreach (var lesson in day.Lessons.OrderBy(l => l.Serial))
 					{
-						<div style="background-color: @(lesson.Subject.BgColor);"
+						<div style="background-color: rgba(@lesson.Subject.Color);"
 						     class="rounded-2 px-2 py-1 d-flex justify-content-between">
 							@lesson.Subject.Title
 							<span
@@ -42,7 +42,7 @@
 			<div class="d-flex flex-column gap-2">
 				@foreach (var work in Selected.HomeWorks)
 				{
-					<div style="background-color: @work.Subject.BgColor;" class="flex-fill p-2 rounded rounded-1">
+					<div style="background-color: rgba(@work.Subject.Color);" class="flex-fill p-2 rounded rounded-1">
 						<p>@work.Subject.Title</p>
 						<p>@work.Title</p>
 					</div>

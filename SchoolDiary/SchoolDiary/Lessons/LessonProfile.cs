@@ -10,7 +10,9 @@ public class LessonProfile : Profile
 	{
 		CreateProjection<Subject, SubjectModel>();
 		CreateProjection<Lesson, LessonModel>();
-		CreateProjection<HomeWork, HomeWorkModel>();
+		CreateProjection<HomeWork, HomeWorkModel>()
+			.ForMember(m => m.Date, opt => opt.MapFrom(hw => hw.Date))
+			.ForMember(m => m.Subject, opt => opt.MapFrom(hw => hw.Subject))
+			.ForMember(m => m.Title, opt => opt.MapFrom(hw => hw.Exercise));
 	}
-	
 }

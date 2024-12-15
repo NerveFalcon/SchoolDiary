@@ -7,22 +7,8 @@ using SchoolDiary.Lessons.Models;
 
 namespace SchoolDiary.Lessons;
 
-public class LessonService(ApplicationDbContext db, IMapper mapper)
+public class LessonService(ApplicationDbContext db, IMapper mapper, ILogger<LessonService> logger)
 {
-	// Lessons =
-	// [
-	// 	new(DayOfWeek.Monday, 1, SubjectModel.Math),
-	// 	new(DayOfWeek.Monday, 2, SubjectModel.Russian),
-	// 	new(DayOfWeek.Monday, 3, SubjectModel.Nature),
-	// 	new(DayOfWeek.Tuesday, 1, SubjectModel.Russian),
-	// 	new(DayOfWeek.Tuesday, 2, SubjectModel.Nature),
-	// 	new(DayOfWeek.Wednesday, 1, SubjectModel.Math),
-	// 	new(DayOfWeek.Thursday, 1, SubjectModel.Russian),
-	// 	new(DayOfWeek.Thursday, 1, SubjectModel.Math),
-	// 	new(DayOfWeek.Thursday, 3, SubjectModel.Nature),
-	// 	new(DayOfWeek.Friday, 1, SubjectModel.Nature),
-	// ];
-
 	public IEnumerable<LessonModel> GetLessons(DayOfWeek dayOfWeek) =>
 		db.Lessons.WhereDay(dayOfWeek)
 			.ProjectTo<LessonModel>(mapper.ConfigurationProvider).ToList();

@@ -1,22 +1,19 @@
+#region
+
+using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using SchoolDiary.Data;
+using SchoolDiary.Lessons.Data;
 using SchoolDiary.Lessons.Models;
+
+#endregion
 
 namespace SchoolDiary.Lessons;
 
-public class HomeWorkService
+public class HomeWorkService(ApplicationDbContext db, IMapper mapper, ILogger<HomeWorkService> logger)
 {
-	public List<HomeWorkModel> HomeWorkModels { get; set; }
+	private readonly ILogger<HomeWorkService> _logger = logger;
 
-	public HomeWorkService()
-	{
-		var friday = new DateTime(2024, 12, 13);
-		HomeWorkModels =
-		[
-			new(friday, SubjectModel.Nature, "Написать в тетради что такое облака"),
-			new(friday, SubjectModel.Nature, "Нарисовать белочку"),
-			new(friday.AddDays(-1), SubjectModel.Russian, "Выучить. Азбука часть 2, страница 14, задания 2 и 3"),
-			new(friday.AddDays(-1), SubjectModel.Math, "Решить задания 1 и 3 на странице 32"),
-		];
-	}
 
 	public List<HomeWorkModel> GetHomeWorks(int dayOfMonth)
 	{
@@ -26,6 +23,6 @@ public class HomeWorkService
 
 	private List<HomeWorkModel> GetHomeWorks(DateTime date)
 	{
-		return HomeWorkModels.Where(w => w.Date == date).ToList();
+		return db.HomeWorks.Where(w => w.Date == date).ProjectTo<HomeWorkModel>(mapper.ConfigurationProvider).ToList();
 	}
 }
