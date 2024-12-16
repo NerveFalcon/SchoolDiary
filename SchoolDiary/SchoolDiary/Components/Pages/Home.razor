@@ -1,5 +1,4 @@
 ﻿@page "/"
-@using Humanizer
 @using SchoolDiary.Calendar
 @using SchoolDiary.Calendar.Models
 @rendermode InteractiveServer
@@ -13,26 +12,7 @@
 	<div class="calendar flex-fill">
 		@foreach (var day in Days)
 		{
-			<div data-day-of-week="@day.DayOfWeek"
-			     @onclick="() => Selected = day"
-			     class="day rounded-2 p-3 squad d-flex flex-column 
-						bg-cream @(day == Selected ? "bg-opacity-25" : "bg-opacity-10")">
-				<div class="d-flex justify-content-between">
-					<span>@day.DayOfWeek.Humanize()</span>
-					<span>@day.Day.ToString("00")</span>
-				</div>
-				<div class="d-flex flex-column gap-1">
-					@foreach (var lesson in day.Lessons.OrderBy(l => l.Serial))
-					{
-						<div style="background-color: rgba(@lesson.Subject.Color);"
-						     class="rounded-2 px-2 py-1 d-flex justify-content-between">
-							@lesson.Subject.Title
-							<span
-								class="badge bg-info-subtle text-info-emphasis align-self-center">@day.HomeWorksCount(lesson.Subject)</span>
-						</div>
-					}
-				</div>
-			</div>
+			<DayView Day="day" @bind-Selected="Selected" />
 		}
 	</div>
 
@@ -47,15 +27,23 @@
 						<p>@work.Exercise</p>
 					</div>
 				}
+				<ButtonWithModal ModalTitle="Добавление домашнего задания">
+					<ButtonContent>+</ButtonContent>
+					<Body>
+					1234
+					</Body>
+					<Footer>
+						<button type="button" class="btn btn-secondary" @onclick="@context.Invoke">Отмена</button>
+						<button type="button" class="btn btn-primary">Добавить предмет</button>
+					</Footer>
+				</ButtonWithModal>
 			</div>
 		</div>
 	</aside>
 </div>
 
-@code
-{
-	@* ReSharper disable once CSharpWarnings::CS8618 *@
-	DayModel Selected { get; set; }
+@code {
+	DayModel Selected { get; set; } = null!;
 	List<DayModel> Days { get; set; } = [];
 
 	protected override Task OnInitializedAsync()
@@ -65,4 +53,5 @@
 
 		return base.OnInitializedAsync();
 	}
+
 }

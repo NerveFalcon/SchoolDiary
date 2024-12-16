@@ -4,35 +4,3 @@
     grid-template-columns: repeat(5, 2fr) repeat(2, 1fr);
     gap: var(--gap-2);
 }
-
-.day{
-    cursor: pointer;
-    /*--days-in-week: 7;*/
-    /*width: calc((100vw - var(--sidebar-width) - var(--content-px)) / var(--days-in-week) - var(--gap-4) );*/
-    /*height: calc((100vw - var(--sidebar-width) - var(--content-px)) / var(--days-in-week) - var(--gap-4) );*/
-
-    &[data-day-of-week="Monday"]{
-        grid-column-start: 1;
-    }
-    &[data-day-of-week="Tuesday"]{
-        grid-column-start: 2;
-    }
-    &[data-day-of-week="Wednesday"]{
-        grid-column-start: 3;
-    }
-    &[data-day-of-week="Thursday"]{
-        grid-column-start: 4;
-    }
-    &[data-day-of-week="Friday"]{
-        grid-column-start: 5;
-    }
-    &[data-day-of-week="Saturday"]{
-        grid-column-start: 6;
-    }
-    &[data-day-of-week="Sunday"]{
-        grid-column-start: 7;
-    }
-    &[data-day-of-week="Saturday"], &[data-day-of-week="Sunday"]{
-        background-color: rgba(var(--bs-danger-rgb), var(--bs-bg-opacity)) !important;
-    }
-}

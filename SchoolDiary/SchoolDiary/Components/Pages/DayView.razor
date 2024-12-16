@@ -1,0 +1,33 @@
+@using Humanizer
+@using Microsoft.AspNetCore.Components.Web
+@using SchoolDiary.Calendar.Models
+@rendermode @(new InteractiveServerRenderMode())
+
+<div data-day-of-week="@Day.DayOfWeek"
+     @onclick="@Select"
+     class="day rounded-2 p-3 squad d-flex flex-column 
+						bg-cream @(Day == Selected ? "bg-opacity-25" : "bg-opacity-10")">
+	<div class="d-flex justify-content-between">
+		<span>@Day.DayOfWeek.Humanize()</span>
+		<span>@Day.Day.ToString("00")</span>
+	</div>
+	<div class="d-flex flex-column gap-1">
+		@foreach (var lesson in Day.Lessons.OrderBy(l => l.Serial))
+		{
+			<div style="background-color: rgba(@lesson.Subject.Color);"
+			     class="rounded-2 px-2 py-1 d-flex justify-content-between">
+				@lesson.Subject.Title
+				<span
+					class="badge bg-info-subtle text-info-emphasis align-self-center">@Day.HomeWorksCount(lesson.Subject)</span>
+			</div>
+		}
+	</div>
+</div>
+
+@code {
+	[Parameter] [EditorRequired] public required DayModel Day { get; set; }
+	[Parameter] [EditorRequired] public required DayModel Selected { get; set; }
+	[Parameter] public EventCallback<DayModel> SelectedChanged { get; set; }
+
+	private Task Select() => SelectedChanged.InvokeAsync(Day);
+}
