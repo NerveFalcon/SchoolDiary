@@ -6,8 +6,8 @@ using Microsoft.AspNetCore.Http.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Primitives;
-using SchoolDiary.Components.Account.Pages;
-using SchoolDiary.Components.Account.Pages.Manage;
+using SchoolDiary.Account.Pages;
+using SchoolDiary.Account.Pages.Manage;
 using SchoolDiary.Data;
 
 namespace Microsoft.AspNetCore.Routing;

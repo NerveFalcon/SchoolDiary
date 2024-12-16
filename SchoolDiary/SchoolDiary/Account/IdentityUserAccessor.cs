@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using SchoolDiary.Data;
 
-namespace SchoolDiary.Components.Account;
+namespace SchoolDiary.Account;
 
 internal sealed class IdentityUserAccessor(
 	UserManager<ApplicationUser> userManager,

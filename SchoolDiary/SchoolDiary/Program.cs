@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using SchoolDiary;
+using SchoolDiary.Account;
 using SchoolDiary.Calendar;
-using SchoolDiary.Components;
-using SchoolDiary.Components.Account;
 using SchoolDiary.Data;
 using SchoolDiary.Lessons;
 
