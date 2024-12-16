@@ -2,8 +2,8 @@
 
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
+using Microsoft.EntityFrameworkCore;
 using SchoolDiary.Data;
-using SchoolDiary.Lessons.Data;
 using SchoolDiary.Lessons.Models;
 
 #endregion
@@ -23,6 +23,10 @@ public class HomeWorkService(ApplicationDbContext db, IMapper mapper, ILogger<Ho
 
 	private List<HomeWorkModel> GetHomeWorks(DateTime date)
 	{
-		return db.HomeWorks.Where(w => w.Date == date).ProjectTo<HomeWorkModel>(mapper.ConfigurationProvider).ToList();
+		return db.HomeWorks
+			.Include(hw => hw.Subject)
+			.Where(w => w.Date == date)
+			.ProjectTo<HomeWorkModel>(mapper.ConfigurationProvider)
+			.ToList();
 	}
 }

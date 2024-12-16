@@ -1,19 +1,8 @@
 namespace SchoolDiary.Lessons.Models;
 
-public class HomeWorkModel
+public class HomeWorkModel(DateTime date, SubjectModel subject, string exercise)
 {
-	public HomeWorkModel()
-	{
-		
-	}
-	public HomeWorkModel(DateTime date, SubjectModel subject, string title)
-	{
-		Title = title;
-		Subject = subject;
-		Date = date;
-	}
-
-	public string Title { get; }
-	public SubjectModel Subject { get; }
-	public DateTime Date { get; }
+	public string Exercise { get; } = exercise;
+	public SubjectModel Subject { get; } = subject;
+	public DateTime Date { get; } = date;
 }

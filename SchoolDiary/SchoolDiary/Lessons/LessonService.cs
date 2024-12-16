@@ -47,13 +47,13 @@ public class LessonService(ApplicationDbContext db, IMapper mapper, ILogger<Less
 	{
 		var lesson = db.Lessons.SingleOrDefault(model.DayOfWeek, model.Serial);
 		if (lesson == null) return false;
-		
+
 		var subjects = db.Subjects.SingleOrDefault(s => s.Title == subject.Title);
 		if (subjects == null) return false;
-		
+
 		lesson.Subject = subjects;
 		var res = db.SaveChanges();
-		
+
 		return res > 0;
 	}
 }
