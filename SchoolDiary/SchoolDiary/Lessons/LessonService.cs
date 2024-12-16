@@ -9,9 +9,12 @@ namespace SchoolDiary.Lessons;
 
 public class LessonService(ApplicationDbContext db, IMapper mapper, ILogger<LessonService> logger)
 {
-	public IEnumerable<LessonModel> GetLessons(DayOfWeek dayOfWeek) =>
+	public List<LessonModel> GetLessons(DayOfWeek dayOfWeek) =>
 		db.Lessons.WhereDay(dayOfWeek)
 			.ProjectTo<LessonModel>(mapper.ConfigurationProvider).ToList();
+
+	public ILookup<DayOfWeek, LessonModel> GetSchedule() =>
+		db.Lessons.ProjectTo<LessonModel>(mapper.ConfigurationProvider).ToLookup(l => l.DayOfWeek);
 
 	public bool AddLesson(LessonModel model)
 	{

@@ -4,10 +4,13 @@ namespace SchoolDiary.Lessons.Data;
 
 public class Subject
 {
+#pragma warning disable CS8618, CS9264
 	public Subject()
 	{
 		
 	}
+#pragma warning restore CS8618, CS9264
+
 	public Subject(string title, string color)
 	{
 		Title = title;

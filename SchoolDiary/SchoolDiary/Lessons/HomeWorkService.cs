@@ -21,12 +21,17 @@ public class HomeWorkService(ApplicationDbContext db, IMapper mapper, ILogger<Ho
 		return GetHomeWorks(date);
 	}
 
-	private List<HomeWorkModel> GetHomeWorks(DateTime date)
-	{
-		return db.HomeWorks
+	private List<HomeWorkModel> GetHomeWorks(DateTime date) =>
+		db.HomeWorks
 			.Include(hw => hw.Subject)
 			.Where(w => w.Date == date)
 			.ProjectTo<HomeWorkModel>(mapper.ConfigurationProvider)
 			.ToList();
-	}
+
+	public ILookup<int, HomeWorkModel> GetMonth(int month) 
+		=> db.HomeWorks
+			.Include(hw => hw.Subject)
+			.Where(hw => hw.Date.Month == month)
+			.ProjectTo<HomeWorkModel>(mapper.ConfigurationProvider)
+			.ToLookup(hw=>hw.Date.Day);
 }

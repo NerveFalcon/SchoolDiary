@@ -9,6 +9,7 @@ using SchoolDiary.Lessons;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddLogging(l => l.AddSimpleConsole(opt => opt.TimestampFormat = "hh:mm:ss tt"));
 // Add services to the container.
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents()

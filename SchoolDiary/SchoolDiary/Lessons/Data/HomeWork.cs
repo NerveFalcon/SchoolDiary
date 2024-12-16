@@ -4,9 +4,11 @@ namespace SchoolDiary.Lessons.Data;
 
 public class HomeWork
 {
+#pragma warning disable CS8618, CS9264
 	public HomeWork()
 	{
 	}
+#pragma warning restore CS8618, CS9264
 
 	public HomeWork(DateTime date, Subject subject, string exercise)
 	{

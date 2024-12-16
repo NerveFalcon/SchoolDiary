@@ -12,11 +12,14 @@ public class CalendarService(LessonService lessonService, HomeWorkService homeWo
 	{
 		var daysInMonth = DateTime.DaysInMonth(DateTime.Today.Year, DateTime.Today.Month);
 
+		var lessons = LessonService.GetSchedule();
+		var homeWorks = HomeWorkService.GetMonth(DateTime.Today.Month);
+		
 		for (var i = 0; i < daysInMonth; i++)
 		{
 			var day = new DayModel(i + 1);
-			day.Lessons = LessonService.GetLessons(day.InternalDayOfWeek).ToList();
-			day.HomeWorks = HomeWorkService.GetHomeWorks(day.Day);
+			day.Lessons = lessons[day.InternalDayOfWeek].ToList();
+			day.HomeWorks = homeWorks[day.Day].ToList();
 			yield return day;
 		}
 	}
