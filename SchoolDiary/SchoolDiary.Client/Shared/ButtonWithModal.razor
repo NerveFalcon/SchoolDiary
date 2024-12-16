@@ -1,0 +1,13 @@
+<button class="btn btn-dark" @onclick="() => Show = true">@ButtonContent</button>
+<Modal @bind-Show="Show" @bind-Show:event="@ShowChanged" ModalTitle="@ModalTitle" Body="Body" Footer="Footer"/>
+
+@code {
+	[Parameter] [EditorRequired] public required string ModalTitle { get; set; }
+	[Parameter] [EditorRequired] public required RenderFragment Body { get; set; }
+	[Parameter] [EditorRequired] public required RenderFragment ButtonContent { get; set; }
+
+	[Parameter] public EventCallback<bool> ShowChanged { get; set; }
+	[Parameter] public RenderFragment<Modal.Closer>? Footer { get; set; }
+
+	public bool Show { get; set; }
+}

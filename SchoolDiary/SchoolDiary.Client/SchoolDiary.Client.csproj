@@ -6,6 +6,7 @@
         <Nullable>enable</Nullable>
         <NoDefaultLaunchSettingsFile>true</NoDefaultLaunchSettingsFile>
         <StaticWebAssetProjectMode>Default</StaticWebAssetProjectMode>
+      <WarningsAsErrors>;NU1605;SYSLIB0011;RZ2012</WarningsAsErrors>
     </PropertyGroup>
 
     <ItemGroup>

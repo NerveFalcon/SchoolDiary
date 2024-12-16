@@ -1,0 +1,31 @@
+<div class="modal fade@(Show ? "show d-block" : string.Empty)">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">@ModalTitle</h1>
+				<button type="button" class="btn-close" @onclick="CloseModal"></button>
+			</div>
+			<div class="modal-body">
+				@Body
+			</div>
+			@if (Footer is not null)
+			{
+				<div class="modal-footer">
+					@Footer(CloseModal)
+				</div>
+			}
+		</div>
+	</div>
+</div>
+
+@code {
+	[Parameter] [EditorRequired] public string ModalTitle { get; set; }
+	[Parameter] [EditorRequired] public RenderFragment Body { get; set; }
+	[Parameter] public bool Show { get; set; }
+	[Parameter] public EventCallback<bool> ShowChanged { get; set; }
+	[Parameter] public RenderFragment<Closer>? Footer { get; set; }
+
+	async Task CloseModal() => await ShowChanged.InvokeAsync(false);
+
+	public delegate Task Closer();
+}
