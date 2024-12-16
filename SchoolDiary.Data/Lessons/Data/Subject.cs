@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
-namespace SchoolDiary.Lessons.Data;
+namespace SchoolDiary.Data.Lessons.Data;
 
 public class Subject
 {

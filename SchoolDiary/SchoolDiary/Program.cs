@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolDiary;
 using SchoolDiary.Account;
-using SchoolDiary.Calendar;
 using SchoolDiary.Data;
-using SchoolDiary.Lessons;
+using SchoolDiary.Data.Calendar;
+using SchoolDiary.Data.Lessons;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -1,8 +1,8 @@
 using AutoMapper;
-using SchoolDiary.Lessons.Data;
-using SchoolDiary.Lessons.Models;
+using SchoolDiary.Data.Lessons.Data;
+using SchoolDiary.Data.Lessons.Models;
 
-namespace SchoolDiary.Lessons;
+namespace SchoolDiary.Data.Lessons;
 
 public class LessonProfile : Profile
 {

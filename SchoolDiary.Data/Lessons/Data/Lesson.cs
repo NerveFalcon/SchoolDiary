@@ -1,4 +1,4 @@
-namespace SchoolDiary.Lessons.Data;
+namespace SchoolDiary.Data.Lessons.Data;
 
 public class Lesson
 {

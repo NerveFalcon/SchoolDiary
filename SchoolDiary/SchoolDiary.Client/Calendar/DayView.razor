@@ -1,10 +1,8 @@
 @using Humanizer
-@using Microsoft.AspNetCore.Components.Web
-@using SchoolDiary.Calendar.Models
-@rendermode @(new InteractiveServerRenderMode())
+@using SchoolDiary.Data.Calendar.Models
+@* @rendermode @(new InteractiveServerRenderMode()) *@
 
-<div data-day-of-week="@Day.DayOfWeek"
-     @onclick="@Select"
+<div data-day-of-week="@Day.DayOfWeek" onclick="@Select"
      class="day rounded-2 p-3 squad d-flex flex-column 
 						bg-cream @(Day == Selected ? "bg-opacity-25" : "bg-opacity-10")">
 	<div class="d-flex justify-content-between">

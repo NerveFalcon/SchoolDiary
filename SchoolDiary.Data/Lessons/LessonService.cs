@@ -1,11 +1,11 @@
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using SchoolDiary.Data;
-using SchoolDiary.Lessons.Data;
-using SchoolDiary.Lessons.Models;
+using Microsoft.Extensions.Logging;
+using SchoolDiary.Data.Lessons.Data;
+using SchoolDiary.Data.Lessons.Models;
 
-namespace SchoolDiary.Lessons;
+namespace SchoolDiary.Data.Lessons;
 
 public class LessonService(ApplicationDbContext db, IMapper mapper, ILogger<LessonService> logger)
 {

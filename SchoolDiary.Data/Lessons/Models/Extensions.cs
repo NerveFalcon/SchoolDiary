@@ -1,6 +1,6 @@
-using SchoolDiary.Lessons.Data;
+using SchoolDiary.Data.Lessons.Data;
 
-namespace SchoolDiary.Lessons.Models;
+namespace SchoolDiary.Data.Lessons.Models;
 
 public static class Extensions
 {
