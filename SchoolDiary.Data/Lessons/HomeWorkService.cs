@@ -4,11 +4,12 @@ using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using SchoolDiary.Data.Lessons.Models;
+using SchoolDiary.Data;
+using SchoolDiary.Lessons.Models;
 
 #endregion
 
-namespace SchoolDiary.Data.Lessons;
+namespace SchoolDiary.Lessons;
 
 public class HomeWorkService(ApplicationDbContext db, IMapper mapper, ILogger<HomeWorkService> logger)
 {

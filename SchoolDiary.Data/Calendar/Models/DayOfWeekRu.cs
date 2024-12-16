@@ -1,6 +1,6 @@
 using System.ComponentModel;
 
-namespace SchoolDiary.Data.Calendar.Models;
+namespace SchoolDiary.Calendar.Models;
 
 public enum DayOfWeekRu
 {

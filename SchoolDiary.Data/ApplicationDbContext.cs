@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using SchoolDiary.Data.Lessons.Data;
+using SchoolDiary.Lessons.Data;
 
 namespace SchoolDiary.Data;
 

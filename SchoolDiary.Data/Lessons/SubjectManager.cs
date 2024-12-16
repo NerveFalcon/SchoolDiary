@@ -1,10 +1,11 @@
 using System.Globalization;
 using AutoMapper;
 using AutoMapper.QueryableExtensions;
-using SchoolDiary.Data.Lessons.Data;
-using SchoolDiary.Data.Lessons.Models;
+using SchoolDiary.Data;
+using SchoolDiary.Lessons.Data;
+using SchoolDiary.Lessons.Models;
 
-namespace SchoolDiary.Data.Lessons;
+namespace SchoolDiary.Lessons;
 
 public class SubjectManager(ApplicationDbContext db, IMapper mapper)
 {

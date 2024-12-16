@@ -4,6 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>SchoolDiary</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>
@@ -11,6 +12,7 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
             <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
         </None>
+        <Compile Update="*.cs" Link="Data\%(FileName).cs" />
     </ItemGroup>
 
     <ItemGroup>

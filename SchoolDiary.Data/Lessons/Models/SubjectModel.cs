@@ -1,4 +1,4 @@
-namespace SchoolDiary.Data.Lessons.Models;
+namespace SchoolDiary.Lessons.Models;
 
 public class SubjectModel(string title, string color)
 {

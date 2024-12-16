@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SchoolDiary;
 using SchoolDiary.Account;
+using SchoolDiary.Calendar;
 using SchoolDiary.Data;
-using SchoolDiary.Data.Calendar;
-using SchoolDiary.Data.Lessons;
+using SchoolDiary.Lessons;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -71,7 +71,7 @@ app.MapStaticAssets();
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode()
 	.AddInteractiveWebAssemblyRenderMode()
-	.AddAdditionalAssemblies(typeof(SchoolDiary.Client._Imports).Assembly);
+	.AddAdditionalAssemblies(typeof(SchoolDiary.Client.Anchor).Assembly);
 
 // Add additional endpoints required by the Identity /Account Razor components.
 app.MapAdditionalIdentityEndpoints();

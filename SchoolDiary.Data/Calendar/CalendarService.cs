@@ -1,7 +1,7 @@
-using SchoolDiary.Data.Calendar.Models;
-using SchoolDiary.Data.Lessons;
+using SchoolDiary.Calendar.Models;
+using SchoolDiary.Lessons;
 
-namespace SchoolDiary.Data.Calendar;
+namespace SchoolDiary.Calendar;
 
 public class CalendarService(LessonService lessonService, HomeWorkService homeWorkService)
 {

@@ -1,6 +1,6 @@
-using SchoolDiary.Data.Lessons.Models;
+using SchoolDiary.Lessons.Models;
 
-namespace SchoolDiary.Data.Calendar.Models;
+namespace SchoolDiary.Calendar.Models;
 
 public class DayModel(int dayOfMonth)
 {

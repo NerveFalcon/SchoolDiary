@@ -1,4 +1,4 @@
-namespace SchoolDiary.Data.Lessons.Models;
+namespace SchoolDiary.Lessons.Models;
 
 public class LessonModel(DayOfWeek dayOfWeek, int serial, SubjectModel subject)
 {
