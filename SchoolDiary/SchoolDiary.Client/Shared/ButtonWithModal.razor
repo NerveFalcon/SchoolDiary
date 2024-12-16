@@ -1,13 +1,24 @@
 <button class="btn btn-dark" @onclick="() => Show = true">@ButtonContent</button>
-<Modal @bind-Show="Show" @bind-Show:event="@ShowChanged" ModalTitle="@ModalTitle" Body="Body" Footer="Footer"/>
+<ModalForm Model="Model" OnValidSubmit="OnValidSubmit" @bind-Show="Show" @bind-Show:event="@ShowChanged" ModalTitle="@ModalTitle" Body="Body" Footer="Footer"/>
 
 @code {
+	#region Modal
+	
 	[Parameter] [EditorRequired] public required string ModalTitle { get; set; }
-	[Parameter] [EditorRequired] public required RenderFragment Body { get; set; }
+	[Parameter] [EditorRequired] public required RenderFragment<ModalForm.ModalFormContext> Body { get; set; }
 	[Parameter] [EditorRequired] public required RenderFragment ButtonContent { get; set; }
 
 	[Parameter] public EventCallback<bool> ShowChanged { get; set; }
-	[Parameter] public RenderFragment<Modal.Closer>? Footer { get; set; }
+	[Parameter] public RenderFragment<ModalForm.ModalFormContext>? Footer { get; set; }
 
 	public bool Show { get; set; }
+
+	#endregion
+	
+	#region EditForm
+
+	[Parameter] public object? Model { get; set; }
+	[Parameter] public EventCallback<ModalForm.ModalFormContext> OnValidSubmit { get; set; }
+
+	#endregion
 }

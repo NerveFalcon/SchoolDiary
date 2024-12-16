@@ -1,0 +1,57 @@
+@using System.ComponentModel.DataAnnotations
+@using SchoolDiary.Calendar.Models
+@using SchoolDiary.Lessons
+@using SchoolDiary.Lessons.Models
+@inject HomeWorkService HomeWorkService
+
+<ButtonWithModal Model="Model" ModalTitle="Новое домашнее задание" OnValidSubmit="Submit">
+	<ButtonContent>+</ButtonContent>
+	<Body>
+	<div class="d-flex flex-column gap-2">
+		<InputSelect class="form-select" @bind-Value="@Model.Subject" disabled="@(Day.Lessons.Count == 1)">
+			@foreach (var lesson in Day.Lessons)
+			{
+				<option value="@lesson.Subject.Title">@lesson.Subject.Title</option>
+			}
+		</InputSelect>
+		<InputTextArea class="form-control" @bind-Value="@Model.Exercise"></InputTextArea>
+		<ValidationMessage For="() => Model.Exercise" />
+	</div>
+	</Body>
+	<Footer>
+		<button type="button" class="btn btn-secondary" @onclick="context.Closer.Invoke">Отмена</button>
+		<button type="submit" class="btn btn-primary">Записать</button>
+	</Footer>
+</ButtonWithModal>
+
+@code {
+	[Parameter] [EditorRequired] public required DayModel Day { get; set; }
+	[Parameter] [EditorRequired] public required EventCallback ReRender { get; set; }
+	ViewModel Model { get; set; } = new();
+
+	protected override void OnParametersSet() => Model.Subject = Day.Lessons.First().Subject.Title;
+
+	async Task Submit(ModalForm.ModalFormContext context)
+	{
+		if (!context.EditContext.Validate()) return;
+
+		var hw = new HomeWorkModel(Day.GetDate(), Day.Lessons.First(l => l.Subject.Title == Model.Subject).Subject, Model.Exercise);
+
+		if (HomeWorkService.AddNewHomeWork(hw))
+		{
+			Model = new();
+			Day.HomeWorks.Add(hw);
+			await context.Closer.Invoke();
+			await ReRender.InvokeAsync();
+		}
+	}
+
+	class ViewModel
+	{
+		public string Subject { get; set; } = string.Empty;
+
+		[Required(AllowEmptyStrings = false, ErrorMessage = "Текст домашнего задания должен быть заполнен")]
+		public string Exercise { get; set; } = string.Empty;
+	}
+
+}

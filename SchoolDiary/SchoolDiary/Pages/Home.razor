@@ -1,8 +1,10 @@
 ﻿@page "/"
 @using Calendar.Models
+@using SchoolDiary.Lessons.Models
 @rendermode InteractiveServer
 
 @inject CalendarService Calendar
+@inject HomeWorkService HomeWorkService
 
 <PageTitle>Календарь</PageTitle>
 
@@ -11,7 +13,7 @@
 	<div class="calendar flex-fill">
 		@foreach (var day in Days)
 		{
-			<DayView Day="day" @bind-Selected="Selected" />
+			<DayView Day="day" @bind-Selected="Selected"/>
 		}
 	</div>
 
@@ -21,21 +23,13 @@
 			<div class="d-flex flex-column gap-2">
 				@foreach (var work in Selected.HomeWorks)
 				{
-					<div style="background-color: rgba(@work.Subject.Color);" class="flex-fill p-2 rounded rounded-1">
-						<p>@work.Subject.Title</p>
+					<div style="background-color: rgba(@work.Subject.Color);" class="flex-fill p-2 rounded rounded-1 position-relative">
+						<div class="position-absolute btn btn-close" style="right: 5%;" @onclick="() => RemoveHomeWork(work)"></div>
+						<p class="me-5">@work.Subject.Title</p>
 						<p>@work.Exercise</p>
 					</div>
 				}
-				<ButtonWithModal ModalTitle="Добавление домашнего задания">
-					<ButtonContent>+</ButtonContent>
-					<Body>
-					1234
-					</Body>
-					<Footer>
-						<button type="button" class="btn btn-secondary" @onclick="@context.Invoke">Отмена</button>
-						<button type="button" class="btn btn-primary">Добавить предмет</button>
-					</Footer>
-				</ButtonWithModal>
+				<AddHomeWorkButton Day="Selected" ReRender="() => ShouldRender()" /> 
 			</div>
 		</div>
 	</aside>
@@ -51,6 +45,12 @@
 		Selected = Days[DateTime.Today.Day - 1];
 
 		return base.OnInitializedAsync();
+	}
+
+	private void RemoveHomeWork(HomeWorkModel work)
+	{
+		if (HomeWorkService.Remove(work))
+			Selected.HomeWorks.Remove(work);
 	}
 
 }

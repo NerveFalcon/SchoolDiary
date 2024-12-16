@@ -1,0 +1,47 @@
+<div class="modal fade@(Show ? "show d-block" : string.Empty)">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5">@ModalTitle</h1>
+				<button type="button" class="btn-close" @onclick="CloseModal"></button>
+			</div>
+			<EditForm method="post" Model="Model" OnValidSubmit="(c) => OnValidSubmit.InvokeAsync(new(c,CloseModal))">
+				<DataAnnotationsValidator/>
+				<div class="modal-body">
+					@Body(new(context, CloseModal))
+				</div>
+				@if (Footer is not null)
+				{
+					<div class="modal-footer">
+						@Footer(new(context, CloseModal))
+					</div>
+				}
+			</EditForm>
+		</div>
+	</div>
+</div>
+
+@code {
+
+	#region Modal
+
+	[Parameter] [EditorRequired] public required string ModalTitle { get; set; }
+	[Parameter] [EditorRequired] public required RenderFragment<ModalFormContext> Body { get; set; }
+	[Parameter] public bool Show { get; set; }
+	[Parameter] public EventCallback<bool> ShowChanged { get; set; }
+	[Parameter] public RenderFragment<ModalFormContext>? Footer { get; set; }
+
+	#endregion
+
+	#region EditForm
+
+	[Parameter] public object? Model { get; set; }
+	[Parameter] public EventCallback<ModalFormContext> OnValidSubmit { get; set; }
+
+	#endregion
+
+	async Task CloseModal() => await ShowChanged.InvokeAsync(false);
+
+	public record ModalFormContext(EditContext EditContext, Modal.Closer Closer);
+
+}

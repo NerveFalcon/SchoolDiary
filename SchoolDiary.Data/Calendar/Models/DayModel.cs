@@ -27,4 +27,6 @@ public class DayModel(int dayOfMonth)
 		var count = HomeWorks.Count(w => w.Subject == subject);
 		return count == 0 ? null : count;
 	}
+	
+	public DateTime GetDate() => _date;
 }
