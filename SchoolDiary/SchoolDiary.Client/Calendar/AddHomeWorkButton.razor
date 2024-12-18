@@ -8,7 +8,7 @@
 	<Body>
 	<div class="d-flex flex-column gap-2">
 		<InputSelect class="form-select" @bind-Value="@Model.Subject" disabled="@(Day.Lessons.Count == 1)">
-			@foreach (var lesson in Day.Lessons)
+			@foreach (var lesson in Day.Lessons.DistinctBy(l => l.Subject.Title))
 			{
 				<option value="@lesson.Subject.Title">@lesson.Subject.Title</option>
 			}
