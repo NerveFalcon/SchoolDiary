@@ -1,7 +1,8 @@
-<button class="btn btn-dark" @onclick="() => Show = true">@ButtonContent</button>
+<button class="btn @Class" @onclick="() => Show = true" @onclick:stopPropagation="true">@ButtonContent</button>
 <ModalForm Model="Model" OnValidSubmit="OnValidSubmit" @bind-Show="Show" @bind-Show:event="@ShowChanged" ModalTitle="@ModalTitle" Body="Body" Footer="Footer"/>
 
 @code {
+	[Parameter] public string Class { get; set; } = string.Empty;
 	#region Modal
 	
 	[Parameter] [EditorRequired] public required string ModalTitle { get; set; }
