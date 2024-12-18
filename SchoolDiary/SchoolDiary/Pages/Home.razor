@@ -38,7 +38,14 @@
 						<p>@work.Exercise</p>
 					</div>
 				}
-				<AddHomeWorkButton Day="Selected" ReRender="() => ShouldRender()"/>
+				@if (Selected.DayOfWeek < DayOfWeekRu.Saturday)
+				{
+					<AddHomeWorkButton Day="Selected" ReRender="() => ShouldRender()"/>
+				}
+				else
+				{
+					<p>Выходные</p>
+				}
 			</div>
 		</div>
 	</aside>
