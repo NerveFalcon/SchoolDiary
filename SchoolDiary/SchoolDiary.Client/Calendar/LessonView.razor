@@ -1,0 +1,11 @@
+@using SchoolDiary.Lessons.Models
+
+<div style="background-color: rgba(@Lesson.Subject.Color);"
+     class="rounded-2 px-2 py-1 d-flex justify-content-between">
+	@Lesson.Subject.Title
+	@Additional
+</div>
+@code {
+	[Parameter] [EditorRequired] public required LessonModel Lesson { get; set; }
+	[Parameter] public RenderFragment? Additional { get; set; }
+}

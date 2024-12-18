@@ -11,20 +11,23 @@
 	<div class="d-flex flex-column gap-1">
 		@foreach (var lesson in Day.Lessons.OrderBy(l => l.Serial))
 		{
-			<div style="background-color: rgba(@lesson.Subject.Color);"
-			     class="rounded-2 px-2 py-1 d-flex justify-content-between">
-				@lesson.Subject.Title
-				<span
-					class="badge bg-info-subtle text-info-emphasis align-self-center">@Day.HomeWorksCount(lesson.Subject)</span>
-			</div>
+			<LessonView Lesson="lesson">
+				<Additional>
+					<span class="badge bg-info-subtle text-info-emphasis align-self-center">
+						@Day.HomeWorksCount(lesson.Subject)
+					</span>
+				</Additional>
+			</LessonView>
 		}
 	</div>
+	@Additional
 </div>
 
 @code {
 	[Parameter] [EditorRequired] public required DayModel Day { get; set; }
 	[Parameter] [EditorRequired] public required DayModel Selected { get; set; }
 	[Parameter] public EventCallback<DayModel> SelectedChanged { get; set; }
+	[Parameter] public RenderFragment? Additional { get; set; }
 
 	private Task Select() => SelectedChanged.InvokeAsync(Day);
 }
