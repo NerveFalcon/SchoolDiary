@@ -13,7 +13,7 @@
 	<div class="calendar flex-fill">
 		@foreach (var day in Days)
 		{
-			<DayView Day="day" @bind-Selected="Selected">
+			<DayView Day="day" Selected="Selected" OnClick="() => Selected = day">
 				<Additional>
 					@if (day.DayOfWeek < DayOfWeekRu.Saturday)
 					{

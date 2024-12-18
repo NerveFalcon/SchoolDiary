@@ -1,7 +1,7 @@
 @using Humanizer
 @using SchoolDiary.Calendar.Models
 
-<div data-day-of-week="@Day.DayOfWeek" onclick="@Select"
+<div data-day-of-week="@Day.DayOfWeek" onclick="@OnClick"
      class="day rounded-2 p-3 squad d-flex flex-column 
 						bg-cream @(Day == Selected ? "bg-opacity-25" : "bg-opacity-10")">
 	<div class="d-flex justify-content-between">
@@ -31,8 +31,7 @@
 @code {
 	[Parameter] [EditorRequired] public required DayModel Day { get; set; }
 	[Parameter] [EditorRequired] public required DayModel Selected { get; set; }
-	[Parameter] public EventCallback<DayModel> SelectedChanged { get; set; }
-	[Parameter] public RenderFragment? Additional { get; set; }
 
-	private Task Select() => SelectedChanged.InvokeAsync(Day);
+	[Parameter] public EventCallback OnClick { get; set; }
+	[Parameter] public RenderFragment? Additional { get; set; }
 }
