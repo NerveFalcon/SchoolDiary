@@ -20,7 +20,12 @@
 			</LessonView>
 		}
 	</div>
-	@Additional
+	@if (Additional != null)
+	{
+		<div class="additional d-flex flex-column">
+			@Additional
+		</div>
+	}
 </div>
 
 @code {

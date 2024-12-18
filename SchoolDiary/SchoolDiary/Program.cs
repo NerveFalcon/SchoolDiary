@@ -43,7 +43,9 @@ builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSe
 
 builder.Services.AddAutoMapper(m => m.AddProfile<LessonProfile>());
 
-builder.Services.AddScoped<LessonService>()
+builder.Services
+	.AddScoped<SubjectManager>()
+	.AddScoped<LessonService>()
 	.AddScoped<HomeWorkService>()
 	.AddScoped<CalendarService>();
 

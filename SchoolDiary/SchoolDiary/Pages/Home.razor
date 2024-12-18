@@ -13,7 +13,14 @@
 	<div class="calendar flex-fill">
 		@foreach (var day in Days)
 		{
-			<DayView Day="day" @bind-Selected="Selected"/>
+			<DayView Day="day" @bind-Selected="Selected">
+				<Additional>
+					@if (day.DayOfWeek < DayOfWeekRu.Saturday)
+					{
+						<EditScheduleButton Day="day" OnSuccess="Init"/>
+					}
+				</Additional>
+			</DayView>
 		}
 	</div>
 
@@ -23,13 +30,15 @@
 			<div class="d-flex flex-column gap-2">
 				@foreach (var work in Selected.HomeWorks)
 				{
-					<div style="background-color: rgba(@work.Subject.Color);" class="flex-fill p-2 rounded rounded-1 position-relative">
-						<div class="position-absolute btn btn-close" style="right: 5%;" @onclick="() => RemoveHomeWork(work)"></div>
+					<div style="background-color: rgba(@work.Subject.Color);"
+					     class="flex-fill p-2 rounded rounded-1 position-relative">
+						<div class="position-absolute btn btn-close" style="right: 5%;"
+						     @onclick="() => RemoveHomeWork(work)"></div>
 						<p class="me-5">@work.Subject.Title</p>
 						<p>@work.Exercise</p>
 					</div>
 				}
-				<AddHomeWorkButton Day="Selected" ReRender="() => ShouldRender()" /> 
+				<AddHomeWorkButton Day="Selected" ReRender="() => ShouldRender()"/>
 			</div>
 		</div>
 	</aside>
@@ -41,10 +50,16 @@
 
 	protected override Task OnInitializedAsync()
 	{
-		Days = Calendar.GetCurrent().ToList();
-		Selected = Days[DateTime.Today.Day - 1];
-
+		Init();
 		return base.OnInitializedAsync();
+	}
+
+	private void Init()
+	{
+		Days = Calendar.GetCurrent().ToList();
+		var day = Selected?.Day ?? DateTime.Today.Day;
+		Selected = Days[day - 1];
+		ShouldRender();
 	}
 
 	private void RemoveHomeWork(HomeWorkModel work)

@@ -1,0 +1,94 @@
+@using SchoolDiary.Calendar.Models
+@using SchoolDiary.Lessons.Models
+
+@inject LessonService LessonService
+@inject SubjectManager SubjectManager
+
+
+<ButtonWithModal Model="Model"
+                 OnValidSubmit="OnSubmit"
+                 Class="p-0 align-self-start"
+                 ModalTitle="Изменение дня недели">
+	<ButtonContent>
+		<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil"
+		     viewBox="0 0 16 16">
+			<path
+				d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325"/>
+		</svg>
+	</ButtonContent>
+	<Body>
+	<div class="d-flex flex-column gap-1">
+		@foreach (var lesson in Model.Lessons)
+		{
+			<div class="input-group">
+				<InputSelect class="form-select" @bind-Value="lesson.Subject">
+					@foreach (var subject in Subjects)
+					{
+						<option value="@subject.Title">@subject.Title</option>
+					}
+				</InputSelect>
+				<div class="input-group-text">
+					<div class="btn btn-close" @onclick="() => Delete(lesson)"></div>
+				</div>
+			</div>
+		}
+		<div class="btn btn-dark" @onclick="AddLesson">+</div>
+	</div>
+	</Body>
+	<Footer>
+		<button type="button" class="btn btn-warning" @onclick="Reset">Сбросить</button>
+		<button type="button" class="btn btn-secondary" @onclick="context.Closer.Invoke">Отмена</button>
+		<button type="submit" class="btn btn-primary">Записать</button>
+	</Footer>
+</ButtonWithModal>
+
+@code {
+	[Parameter] [EditorRequired] public required DayModel Day { get; set; }
+	[Parameter] public EventCallback OnSuccess { get; set; }
+	public required List<SubjectModel> Subjects { get; set; }
+	private ViewModel Model { get; set; } = new();
+
+	protected override void OnInitialized() => Subjects = SubjectManager.GetSubjects();
+
+	protected override void OnParametersSet()
+	{
+		if (Model.Lessons.Count == Day.Lessons.Count) return;
+
+		Reset();
+	}
+
+	private void Reset() =>
+		Model = new()
+		{
+			DayOfWeek = Day.GetDate().DayOfWeek,
+			Lessons = Day.Lessons.Select(m => new LessonViewModel(m.Subject))
+				.ToList(),
+		};
+
+
+	private void Delete(LessonViewModel lesson) => Model.Lessons.Remove(lesson);
+	private void AddLesson() => Model.Lessons.Add(new(Subjects.First()));
+
+	private async Task OnSubmit(ModalForm.ModalFormContext context)
+	{
+		if(!context.EditContext.Validate()) return;
+		
+		var subjects = Model.Lessons.Select(l => Subjects.First(s => s.Title == l.Subject)).ToList();
+		if (LessonService.ChangeSchedule(Model.DayOfWeek, subjects))
+		{
+			await context.Closer.Invoke();
+			await OnSuccess.InvokeAsync();
+		}
+	}
+
+	class ViewModel
+	{
+		public List<LessonViewModel> Lessons { get; set; } = [];
+		public DayOfWeek DayOfWeek { get; set; }
+	}
+
+	class LessonViewModel(SubjectModel subject)
+	{
+		public string Subject { get; set; } = subject.Title;
+	}
+}

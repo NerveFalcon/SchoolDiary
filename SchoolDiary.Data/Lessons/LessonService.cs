@@ -60,4 +60,29 @@ public class LessonService(ApplicationDbContext db, IMapper mapper, ILogger<Less
 
 		return res > 0;
 	}
+
+	public bool ChangeSchedule(DayOfWeek dayOfWeek, List<SubjectModel> models)
+	{
+		var lessons = db.Lessons.WhereDay(dayOfWeek).ToList();
+		var subjects = db.Subjects.ToList();
+
+		var length = models.Count;
+		var addLessons = lessons.Count < models.Count;
+		if (addLessons) length = lessons.Count;
+
+		for (var i = 0; i < length; i++) lessons[i].Subject = subjects.First(s => s.Title == models[i].Title);
+
+		if (addLessons)
+			for (var i = length; i < models.Count; i++)
+				db.Lessons.Add(new(dayOfWeek,
+					i + 1,
+					subjects.First(s => s.Title == models[i].Title)));
+		else
+			for (var i = length; i < lessons.Count; i++)
+				db.Lessons.Remove(lessons[i]);
+		
+		var res = db.SaveChanges();
+
+		return res > 0;
+	}
 }
