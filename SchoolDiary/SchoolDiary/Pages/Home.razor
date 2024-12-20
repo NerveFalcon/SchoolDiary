@@ -17,7 +17,7 @@
 				<Additional>
 					@if (day.DayOfWeek < DayOfWeekRu.Saturday)
 					{
-						<AuthorizeView>
+						<AuthorizeView Roles="Учитель">
 							<EditScheduleButton Day="day" OnSuccess="Init"/>
 						</AuthorizeView>
 					}
@@ -34,7 +34,7 @@
 				{
 					<div style="background-color: rgba(@work.Subject.Color);"
 					     class="flex-fill p-2 rounded rounded-1 position-relative">
-						<AuthorizeView>
+						<AuthorizeView Roles="Учитель">
 							<div class="position-absolute btn btn-close" style="right: 5%;"
 							     @onclick="() => RemoveHomeWork(work)"></div>
 						</AuthorizeView>
@@ -44,7 +44,7 @@
 				}
 				@if (Selected.DayOfWeek < DayOfWeekRu.Saturday)
 				{
-					<AuthorizeView>
+					<AuthorizeView Roles="Учитель">
 						<AddHomeWorkButton Day="Selected" ReRender="() => ShouldRender()"/>
 					</AuthorizeView>
 				}

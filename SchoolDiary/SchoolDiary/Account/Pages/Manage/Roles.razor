@@ -1,0 +1,91 @@
+@page "/Account/Manage/Roles"
+
+@using System.ComponentModel.DataAnnotations
+@using Microsoft.AspNetCore.Identity
+@using SchoolDiary.Data
+
+@inject RoleManager<IdentityRole> RoleManager
+@inject IdentityUserAccessor UserAccessor
+@inject UserManager<ApplicationUser> UserManager
+
+<PageTitle>Roles</PageTitle>
+<h3>Roles</h3>
+
+<div class="row">
+	<div class="col-6">
+		<div class="d-flex-flex-column">
+			@foreach (var role in UserRoles)
+			{
+				<div class="d-flex justify-content-between">
+					<p>@role</p>
+					<div class="btn btn-close" @onclick="() => RemoveRole(role)"></div>
+				</div>
+			}
+		</div>
+		<EditForm Model="Input" FormName="role" OnValidSubmit="AssignRole" method="post">
+			<DataAnnotationsValidator/>
+			<ValidationSummary class="text-danger" role="alert"/>
+			<div class="text-danger">
+				@foreach (var error in Errors)
+				{
+					<p>@error.Code: @error.Description</p>
+				}
+			</div>
+			<InputSelect @bind-Value="Input.Role" name="Input.Role" id="Input.Role"
+			             class="form-control form-select mb-3">
+				@foreach (var role in RoleManager.Roles)
+				{
+					<option value="@role.NormalizedName">@role.Name</option>
+				}
+			</InputSelect>
+			<button type="submit" class="w-100 btn btn-lg btn-primary">Назначить роль</button>
+		</EditForm>
+	</div>
+</div>
+
+
+@code {
+	[CascadingParameter] private HttpContext HttpContext { get; set; } = null!;
+	[SupplyParameterFromForm] RoleModel Input { get; set; } = new();
+
+	IList<string> UserRoles { get; set; } = [];
+	ApplicationUser User { get; set; } = null!;
+	List<IdentityError> Errors { get; set; } = [];
+
+	protected override async Task OnInitializedAsync()
+	{
+		User = await UserAccessor.GetRequiredUserAsync(HttpContext);
+		UserRoles = await UserManager.GetRolesAsync(User);
+		RoleManager.Logger.LogInformation("Sample");
+	}
+
+	private async Task AssignRole()
+	{
+		var result = await UserManager.AddToRoleAsync(User, Input.Role);
+		await ValidateResult(result);
+	}
+
+	private async Task RemoveRole(string role)
+	{
+		var res = await UserManager.RemoveFromRoleAsync(User, role);
+		await ValidateResult(res);
+	}
+
+	private async Task ValidateResult(IdentityResult result)
+	{
+		if (result.Succeeded)
+		{
+			UserRoles = await UserManager.GetRolesAsync(User);
+			ShouldRender();
+			return;
+		}
+
+		Errors = result.Errors.ToList();
+	}
+
+	public class RoleModel
+	{
+		[Display(Name = "Role")] public string? Role { get; set; }
+	}
+
+}

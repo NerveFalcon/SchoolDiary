@@ -8,6 +8,7 @@
 @using SchoolDiary.Data
 
 @inject UserManager<ApplicationUser> UserManager
+@inject RoleManager<IdentityRole> RoleManager
 @inject IUserStore<ApplicationUser> UserStore
 @inject SignInManager<ApplicationUser> SignInManager
 @inject IEmailSender<ApplicationUser> EmailSender
@@ -79,6 +80,17 @@
 		}
 
 		Logger.LogInformation("User created a new account with password.");
+
+		var role = RoleManager.Roles.FirstOrDefault(r => r.NormalizedName == "РОДИТЕЛЬ");
+		if (role != null)
+		{
+			result = await UserManager.AddToRoleAsync(user, role.Name);
+			if (!result.Succeeded)
+			{
+				identityErrors = result.Errors;
+				return;
+			}
+		}
 
 		var userId = await UserManager.GetUserIdAsync(user);
 		var code = await UserManager.GenerateEmailConfirmationTokenAsync(user);
