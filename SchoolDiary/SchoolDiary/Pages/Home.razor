@@ -8,7 +8,10 @@
 
 <PageTitle>Календарь</PageTitle>
 
-<h1>Календарь заданий</h1>
+<div class="d-flex justify-content-between">
+	<h1>Календарь заданий</h1>
+	<EditSubjectsButton OnSuccess="Init" />
+</div>
 <div class="d-flex gap-4">
 	<div class="calendar flex-fill">
 		@foreach (var day in Days)

@@ -3,6 +3,9 @@ namespace SchoolDiary.Lessons.Models;
 public class SubjectModel(string title, string color)
 {
 	public string Title { get; } = title;
+	/// <summary>
+	/// Color in format <c>R,G,B,A</c>
+	/// </summary>
 	public string Color { get; } = color;
 
 	public static bool operator ==(SubjectModel first, SubjectModel second ) => first.Title == second.Title;

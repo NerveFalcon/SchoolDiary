@@ -1,5 +1,5 @@
 <div class="modal fade@(Show ? "show d-block" : string.Empty)" @onclick:stopPropagation="true">
-	<div class="modal-dialog">
+	<div class="modal-dialog @ModalCssClass">
 		<div class="modal-content">
 			<div class="modal-header">
 				<h1 class="modal-title fs-5">@ModalTitle</h1>
@@ -28,6 +28,7 @@
 	[Parameter] [EditorRequired] public required string ModalTitle { get; set; }
 	[Parameter] [EditorRequired] public required RenderFragment<ModalFormContext> Body { get; set; }
 	[Parameter] public bool Show { get; set; }
+	[Parameter] public string? ModalCssClass { get; set; }
 	[Parameter] public EventCallback<bool> ShowChanged { get; set; }
 	[Parameter] public RenderFragment<ModalFormContext>? Footer { get; set; }
 

@@ -82,15 +82,9 @@ public class SubjectManager(ApplicationDbContext db, IMapper mapper)
 	{
 		if (!color.StartsWith('#')) return color;
 
-		if (color.Length != 9)
+		if (color.Length is not (9 or 7 or 4) )
 			throw new ArgumentException("Invalid color code");
 
-		var colorCode = color.Substring(1);
-		var colors = new int[4];
-
-		for (var i = 0; i < 4; i++)
-			colors[i] = int.Parse(colorCode.Substring(i * 2, 2), NumberStyles.HexNumber);
-
-		return string.Join(',', colors);
+		return ColorManager.HexToRgba(color);
 	}
 }

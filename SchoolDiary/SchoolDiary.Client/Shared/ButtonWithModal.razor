@@ -1,5 +1,7 @@
 <button class="btn @Class" @onclick="() => Show = true" @onclick:stopPropagation="true">@ButtonContent</button>
-<ModalForm Model="Model" OnValidSubmit="OnValidSubmit" @bind-Show="Show" @bind-Show:event="@ShowChanged" ModalTitle="@ModalTitle" Body="Body" Footer="Footer"/>
+<ModalForm @bind-Show="Show" @bind-Show:event="@ShowChanged" 
+           Body="Body" Footer="Footer" ModalCssClass="@ModalCssClass" 
+           ModalTitle="@ModalTitle" Model="Model" OnValidSubmit="OnValidSubmit"/>
 
 @code {
 	[Parameter] public string Class { get; set; } = string.Empty;
@@ -9,6 +11,7 @@
 	[Parameter] [EditorRequired] public required RenderFragment<ModalForm.ModalFormContext> Body { get; set; }
 	[Parameter] [EditorRequired] public required RenderFragment ButtonContent { get; set; }
 
+	[Parameter] public string? ModalCssClass { get; set; }
 	[Parameter] public EventCallback<bool> ShowChanged { get; set; }
 	[Parameter] public RenderFragment<ModalForm.ModalFormContext>? Footer { get; set; }
 
