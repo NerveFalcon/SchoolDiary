@@ -7,7 +7,6 @@ public class Subject
 #pragma warning disable CS8618, CS9264
 	public Subject()
 	{
-		
 	}
 #pragma warning restore CS8618, CS9264
 
@@ -17,7 +16,7 @@ public class Subject
 		Color = color;
 	}
 
-	[Key]
+	[Key] public Guid Id { get; set; }
 	public string Title { get; set; }
 	public string Color { get; set; }
 }
