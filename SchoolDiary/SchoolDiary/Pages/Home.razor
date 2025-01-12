@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Globalization
 @using Calendar.Models
 @using SchoolDiary.Lessons.Models
 @rendermode InteractiveServer
@@ -10,7 +11,7 @@
 <PageTitle>Календарь</PageTitle>
 
 <div class="d-flex justify-content-between">
-	<h1>Календарь заданий</h1>
+	<h1>Календарь заданий на @DateTimeFormatInfo.GetMonthName(Selected.Month)</h1>
 	<EditSubjectsButton OnSuccess="Init"/>
 </div>
 <div class="d-flex gap-4">
@@ -19,7 +20,7 @@
 		{
 			<DayView Day="day" Selected="Selected" OnClick="() => Selected = day">
 				<Additional>
-					@if (day.DayOfWeek < DayOfWeekRu.Saturday)
+					@if (day.DayOfWeek < DayOfWeek.Saturday)
 					{
 						<AuthorizeView Roles="Учитель">
 							<EditScheduleButton Subjects="Subjects" Day="day" OnSuccess="Init"/>
@@ -32,7 +33,7 @@
 
 	<aside class="w-25 d-flex flex-column">
 		<div class="bg-cream bg-opacity-25 p-4 rounded rounded-2">
-			<p><b>Задания на @(Selected.Day.ToString("00")).@Selected.Month</b></p>
+			<p><b>Задания на @(Selected.Day.ToString("00")) @DateTimeFormatInfo.MonthGenitiveNames[Selected.Month - 1]</b></p>
 			<div class="d-flex flex-column gap-2">
 				@foreach (var work in Selected.HomeWorks)
 				{
@@ -62,12 +63,15 @@
 </div>
 
 @code {
+	DateTimeFormatInfo DateTimeFormatInfo { get; set; } = null!;
 	DayModel Selected { get; set; } = null!;
 	List<DayModel> Days { get; set; } = [];
 	List<SubjectModel> Subjects { get; set; } = [];
 
 	protected override Task OnInitializedAsync()
 	{
+		var culture = new CultureInfo("ru-RU");
+		DateTimeFormatInfo = culture.DateTimeFormat;
 		Init();
 		return base.OnInitializedAsync();
 	}

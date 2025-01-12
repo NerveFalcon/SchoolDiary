@@ -18,7 +18,7 @@ public class CalendarService(LessonService lessonService, HomeWorkService homeWo
 		for (var i = 0; i < daysInMonth; i++)
 		{
 			var day = new DayModel(i + 1);
-			day.Lessons = lessons[day.InternalDayOfWeek].ToList();
+			day.Lessons = lessons[day.DayOfWeek].ToList();
 			day.HomeWorks = homeWorks[day.Day].ToList();
 			yield return day;
 		}
