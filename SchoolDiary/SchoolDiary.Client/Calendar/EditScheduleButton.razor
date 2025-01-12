@@ -61,7 +61,7 @@
 		Model = new()
 		{
 			DayOfWeek = Day.GetDate().DayOfWeek,
-			Lessons = Day.Lessons.Select(m => new LessonViewModel(m.Subject))
+			Lessons = Day.Lessons.Select(l => new LessonViewModel(l.Subject))
 				.ToList(),
 		};
 
@@ -76,7 +76,7 @@
 			return;
 		}
 
-		Model.Lessons.Add(new(Subjects.First()));
+		Model.Lessons.Add(new(Subjects.First(), true));
 	}
 
 	private async Task OnSubmit(ModalForm.ModalFormContext context)
@@ -99,10 +99,10 @@
 		public bool HasChanges() => Lessons.Any(l => l.HasChanges());
 	}
 
-	class LessonViewModel(SubjectModel subject)
+	class LessonViewModel(SubjectModel subject, bool isNew = false)
 	{
 		public string Subject { get; set; } = subject.Title;
 
-		public bool HasChanges() => Subject != subject.Title;
+		public bool HasChanges() => isNew || Subject != subject.Title;
 	}
 }
