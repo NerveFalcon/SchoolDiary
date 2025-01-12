@@ -33,12 +33,13 @@
 			</div>
 		}
 		<div class="btn btn-dark" @onclick="AddLesson">+</div>
+		<p class="text-danger"><span>@(string.Join("</span><BR><span>", Errors))</span></p>
 	</div>
 	</Body>
 	<Footer>
 		<button type="button" class="btn btn-warning" @onclick="Reset">Сбросить</button>
 		<button type="button" class="btn btn-secondary" @onclick="context.Closer.Invoke">Отмена</button>
-		<button type="submit" class="btn btn-primary">Записать</button>
+		<button type="submit" class="btn btn-primary" disabled="@(!Model.HasChanges())">Записать</button>
 	</Footer>
 </ButtonWithModal>
 
@@ -46,7 +47,11 @@
 	[Parameter] [EditorRequired] public required DayModel Day { get; set; }
 	[Parameter] public EventCallback OnSuccess { get; set; }
 	public required List<SubjectModel> Subjects { get; set; }
+
 	private ViewModel Model { get; set; } = new();
+	private List<string> Errors { get; set; } = [];
+
+	const string SubjectNotFound = "Отсутствуют предметы. Прежде чем составлять расписание их необходимо добавить";
 
 	protected override void OnInitialized() => Subjects = SubjectManager.GetSubjects();
 
@@ -67,12 +72,23 @@
 
 
 	private void Delete(LessonViewModel lesson) => Model.Lessons.Remove(lesson);
-	private void AddLesson() => Model.Lessons.Add(new(Subjects.First()));
+
+	private void AddLesson()
+	{
+		if (Subjects.Count == 0)
+		{
+			if (!Errors.Contains(SubjectNotFound))
+				Errors.Add(SubjectNotFound);
+			return;
+		}
+
+		Model.Lessons.Add(new(Subjects.First()));
+	}
 
 	private async Task OnSubmit(ModalForm.ModalFormContext context)
 	{
-		if(!context.EditContext.Validate()) return;
-		
+		if (!context.EditContext.Validate()) return;
+
 		var subjects = Model.Lessons.Select(l => Subjects.First(s => s.Title == l.Subject)).ToList();
 		if (LessonService.ChangeSchedule(Model.DayOfWeek, subjects))
 		{
@@ -85,10 +101,14 @@
 	{
 		public List<LessonViewModel> Lessons { get; set; } = [];
 		public DayOfWeek DayOfWeek { get; set; }
+
+		public bool HasChanges() => Lessons.Any(l => l.HasChanges());
 	}
 
 	class LessonViewModel(SubjectModel subject)
 	{
 		public string Subject { get; set; } = subject.Title;
+
+		public bool HasChanges() => Subject != subject.Title;
 	}
 }
