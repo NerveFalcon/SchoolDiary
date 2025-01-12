@@ -66,8 +66,9 @@ public class SubjectManager(ApplicationDbContext db, IMapper mapper)
 	private void RemoveLessons(Subject subject)
 	{
 		var removable = db.Lessons.Where(l => l.Subject == subject).ToList();
-		var days = db.Lessons.Where(l => removable.Select(lesson => lesson.DayOfWeek).Distinct().Contains(l.DayOfWeek))
-			.OrderBy(l => new { l.DayOfWeek, l.Serial })
+		var days = db.Lessons.Where(l =>  removable.Select(lesson => lesson.DayOfWeek).Distinct().Contains(l.DayOfWeek))
+			.OrderBy(l => l.DayOfWeek)
+			.ThenBy(l => l.Subject.Id)
 			.ToLookup(l => l.DayOfWeek);
 
 		foreach (var day in days)

@@ -19,12 +19,5 @@
         </library>
       </libraries>
     </data-source>
-    <data-source source="LOCAL" name="Publish" uuid="801237ff-43ba-4fd9-8ebc-2a7eedb78088">
-      <driver-ref>sqlite.xerial</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:$PROJECT_DIR$/SchoolDiary/SchoolDiary/bin/Release/net9.0/linux-x64/publish/Data/app.db</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
   </component>
 </project>
