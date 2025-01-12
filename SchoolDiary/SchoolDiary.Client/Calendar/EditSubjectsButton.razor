@@ -10,7 +10,7 @@
 	<ButtonContent>Изменить предметы</ButtonContent>
 	<Body>
 	<div class="d-flex flex-column gap-2">
-		@foreach (var subject in Subjects)
+		@foreach (var subject in Subjects.Where(vm => !vm.IsDeleted))
 		{
 			<div class="d-flex justify-content-between">
 				<div class="d-flex flex-column w-50">
@@ -20,7 +20,7 @@
 						@((MarkupString)string.Join("<br>", context.EditContext.GetValidationMessages(context.EditContext.Field($"{subject.Title}.{nameof(subject.Title)}"))))
 					</span>
 				</div>
-				
+
 				<div class="d-flex gap-2 align-items-center">
 					<input @bind="@subject.Opacity" @bind:event="oninput"
 					       class="form-range" max="1" min="0"
@@ -29,6 +29,7 @@
 					<input @bind="@subject.Color" class="form-control form-control-color"
 					       id="@(subject.Title).@(nameof(subject.Color))"
 					       style="opacity: @subject.Opacity" title="@subject.Color" type="color"/>
+					<div class="btn btn-close" @onclick="() => Delete(subject)"></div>
 				</div>
 			</div>
 		}
@@ -38,7 +39,7 @@
 	<Footer>
 		<button type="button" class="btn btn-warning" @onclick="() => Reset(context)">Сбросить</button>
 		<button type="button" class="btn btn-secondary" @onclick="context.Closer.Invoke">Отмена</button>
-		<button type="submit" class="btn btn-primary">Сохранить</button>
+		<button type="submit" class="btn btn-primary" disabled="@(!HasChanges)">Сохранить</button>
 	</Footer>
 </ButtonWithModal>
 
@@ -46,6 +47,7 @@
 	[Parameter] public EventCallback OnSuccess { get; set; }
 
 	List<ViewModel> Subjects { get; set; } = [];
+	bool HasChanges => Subjects.Any(vm => vm.HasChanges());
 
 	protected override void OnInitialized() => Subjects = SubjectManager.GetSubjects().Select(s => new ViewModel(s)).ToList();
 
@@ -70,8 +72,14 @@
 	{
 		foreach (var vm in Subjects)
 		{
+			if (vm.IsDeleted)
+			{
+				SubjectManager.RemoveSubject(vm.Def);
+				continue;
+			}
+
 			var rgb = vm.GetRgb();
-			if (string.IsNullOrWhiteSpace(vm.Def.Title))
+			if (vm.IsNew)
 			{
 				SubjectManager.AddSubject(new(vm.Title, rgb));
 				continue;
@@ -98,6 +106,13 @@
 		}
 	}
 
+	private void Delete(ViewModel subject)
+	{
+		subject.IsDeleted = true;
+		if (subject.IsNew)
+			Subjects.Remove(subject);
+	}
+
 	class ViewModel(SubjectModel def)
 	{
 		public SubjectModel Def { get; set; } = def;
@@ -109,17 +124,25 @@
 		[MinLength(3)] public string Title { get; set; } = def.Title;
 		public string Color { get; set; } = ColorManager.RgbaToHex(def.Color)[..^2];
 		public string Opacity { get; set; } = def.Color.Split(',').Last();
-
-		public string GetRgb()
-		{
-			return ColorManager.HexToRgba(Color, Opacity);
-		}
+		public bool IsDeleted { get; set; } = false;
+		public bool IsNew => string.IsNullOrWhiteSpace(Def.Title);
 
 		public void Reset()
 		{
 			Title = Def.Title;
 			Color = ColorManager.RgbaToHex(Def.Color)[..^2];
 			Opacity = Def.Color.Split(',').Last();
+			IsDeleted = false;
 		}
+
+		public bool HasChanges()
+			=> string.IsNullOrWhiteSpace(Def.Title)
+			   || Title != Def.Title
+			   || GetRgb() != Def.Color;
+
+		public SubjectModel GetModel() => new(Title, GetRgb());
+
+		public string GetRgb() => ColorManager.HexToRgba(Color, Opacity);
 	}
+
 }
