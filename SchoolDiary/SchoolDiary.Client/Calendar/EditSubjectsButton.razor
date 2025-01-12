@@ -49,7 +49,10 @@
 	List<ViewModel> Subjects { get; set; } = [];
 	bool HasChanges => Subjects.Any(vm => vm.HasChanges());
 
-	protected override void OnInitialized() => Subjects = SubjectManager.GetSubjects().Select(s => new ViewModel(s)).ToList();
+	protected override void OnInitialized() => LoadSubjects();
+
+	private List<ViewModel> LoadSubjects() 
+		=> Subjects = SubjectManager.GetSubjects().Select(s => new ViewModel(s)).ToList();
 
 	private void AddSubject() => Subjects.Add(new());
 
@@ -94,6 +97,7 @@
 
 		await context.Closer.Invoke();
 		await OnSuccess.InvokeAsync();
+		LoadSubjects();
 	}
 
 	private void Reset(ModalForm.ModalFormContext context)
