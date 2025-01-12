@@ -5,6 +5,7 @@
 
 @inject CalendarService Calendar
 @inject HomeWorkService HomeWorkService
+@inject SubjectManager SubjectManager
 
 <PageTitle>Календарь</PageTitle>
 
@@ -21,7 +22,7 @@
 					@if (day.DayOfWeek < DayOfWeekRu.Saturday)
 					{
 						<AuthorizeView Roles="Учитель">
-							<EditScheduleButton Day="day" OnSuccess="Init"/>
+							<EditScheduleButton Subjects="Subjects" Day="day" OnSuccess="Init"/>
 						</AuthorizeView>
 					}
 				</Additional>
@@ -63,6 +64,7 @@
 @code {
 	DayModel Selected { get; set; } = null!;
 	List<DayModel> Days { get; set; } = [];
+	List<SubjectModel> Subjects { get; set; } = [];
 
 	protected override Task OnInitializedAsync()
 	{
@@ -72,6 +74,7 @@
 
 	private void Init()
 	{
+		Subjects = SubjectManager.GetSubjects();
 		Days = Calendar.GetCurrent().ToList();
 		var day = Selected?.Day ?? DateTime.Today.Day;
 		Selected = Days[day - 1];

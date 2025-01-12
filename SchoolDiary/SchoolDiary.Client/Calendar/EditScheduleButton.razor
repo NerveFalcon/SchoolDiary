@@ -1,9 +1,6 @@
 @using SchoolDiary.Calendar.Models
 @using SchoolDiary.Lessons.Models
-
 @inject LessonService LessonService
-@inject SubjectManager SubjectManager
-
 
 <ButtonWithModal Model="Model"
                  OnValidSubmit="OnSubmit"
@@ -45,15 +42,13 @@
 
 @code {
 	[Parameter] [EditorRequired] public required DayModel Day { get; set; }
+	[Parameter] [EditorRequired] public required List<SubjectModel> Subjects { get; set; }
 	[Parameter] public EventCallback OnSuccess { get; set; }
-	public required List<SubjectModel> Subjects { get; set; }
 
 	private ViewModel Model { get; set; } = new();
 	private List<string> Errors { get; set; } = [];
 
 	const string SubjectNotFound = "Отсутствуют предметы. Прежде чем составлять расписание их необходимо добавить";
-
-	protected override void OnInitialized() => Subjects = SubjectManager.GetSubjects();
 
 	protected override void OnParametersSet()
 	{
@@ -69,7 +64,6 @@
 			Lessons = Day.Lessons.Select(m => new LessonViewModel(m.Subject))
 				.ToList(),
 		};
-
 
 	private void Delete(LessonViewModel lesson) => Model.Lessons.Remove(lesson);
 
