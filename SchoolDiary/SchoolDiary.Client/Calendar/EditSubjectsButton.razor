@@ -136,7 +136,8 @@
 		}
 
 		public bool HasChanges()
-			=> string.IsNullOrWhiteSpace(Def.Title)
+			=> IsNew
+			   || IsDeleted
 			   || Title != Def.Title
 			   || GetRgb() != Def.Color;
 
